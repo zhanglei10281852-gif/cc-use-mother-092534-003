@@ -1,0 +1,9 @@
+[project]
+name = "ccusr-credential-lease"
+version = "0.1.0"
+description = "连接凭据申请、短期物化、轮换、租约核销和泄露处置的领域资料"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.unittest]
+start-directory = "tests"

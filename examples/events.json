@@ -1,0 +1,44 @@
+[
+  {
+    "event_id": "evt-03-001",
+    "event_type": "lease.requested",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T09:00:00+08:00",
+    "actor_id": "operator-01"
+  },
+  {
+    "event_id": "evt-03-002",
+    "event_type": "lease.issued",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T10:00:00+08:00",
+    "actor_id": "reviewer-02"
+  },
+  {
+    "event_id": "evt-03-003",
+    "event_type": "credential.rotated",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T11:00:00+08:00",
+    "actor_id": "operator-01"
+  },
+  {
+    "event_id": "evt-03-004",
+    "event_type": "usage.recorded",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T12:00:00+08:00",
+    "actor_id": "reviewer-02"
+  },
+  {
+    "event_id": "evt-03-005",
+    "event_type": "lease.revoked",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T13:00:00+08:00",
+    "actor_id": "operator-01"
+  },
+  {
+    "event_id": "evt-03-006",
+    "event_type": "lease.expired",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T14:00:00+08:00",
+    "actor_id": "reviewer-02"
+  }
+]

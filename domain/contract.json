@@ -1,0 +1,42 @@
+{
+  "project": "凭据物化与销毁协调器",
+  "entities": [
+    "connector",
+    "credential_version",
+    "lease",
+    "task_context",
+    "usage_receipt",
+    "destruction_proof",
+    "incident"
+  ],
+  "states": [
+    "requested",
+    "issued",
+    "active",
+    "renewing",
+    "revoked",
+    "expired",
+    "destroying",
+    "destroyed",
+    "frozen"
+  ],
+  "event_types": [
+    "lease.requested",
+    "lease.issued",
+    "credential.rotated",
+    "usage.recorded",
+    "lease.revoked",
+    "lease.expired",
+    "destruction.confirmed",
+    "incident.opened"
+  ],
+  "time_policy": "ISO 8601 with timezone",
+  "identifier_policy": "同一租户和对象类型内业务标识唯一",
+  "version_policy": "已发布规则与事实通过新版本追加，不覆盖历史",
+  "rules": [
+    "凭据只能绑定已授权任务上下文与能力范围",
+    "明文不得写入持久化任务参数或审计载荷",
+    "同一租户的有效租约不得超过额度",
+    "轮换宽限结束后旧版本必须拒绝使用"
+  ]
+}
