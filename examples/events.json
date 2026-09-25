@@ -1,44 +1,153 @@
 [
   {
     "event_id": "evt-03-001",
-    "event_type": "lease.requested",
-    "aggregate_id": "case-03-001",
+    "event_type": "task.authorized",
+    "aggregate_id": "task-03-001",
+    "tenant_id": "tenant-03",
     "occurred_at": "2026-09-25T09:00:00+08:00",
-    "actor_id": "operator-01"
+    "sequence": 1,
+    "payload": {
+      "connector_id": "conn-gitlab",
+      "purpose": "nightly-sync",
+      "approved_scope": ["read:repo"],
+      "capabilities": ["connector.run"]
+    }
   },
   {
     "event_id": "evt-03-002",
-    "event_type": "lease.issued",
+    "event_type": "lease.requested",
     "aggregate_id": "case-03-001",
+    "tenant_id": "tenant-03",
     "occurred_at": "2026-09-25T10:00:00+08:00",
-    "actor_id": "reviewer-02"
+    "sequence": 1,
+    "payload": {
+      "task_id": "task-03-001",
+      "connector_id": "conn-gitlab",
+      "purpose": "nightly-sync"
+    }
   },
   {
     "event_id": "evt-03-003",
-    "event_type": "credential.rotated",
+    "event_type": "lease.issued",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T11:00:00+08:00",
-    "actor_id": "operator-01"
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T10:00:01+08:00",
+    "sequence": 2,
+    "payload": {
+      "connector_id": "conn-gitlab",
+      "purpose": "nightly-sync",
+      "approved_scope": ["read:repo"],
+      "capabilities": ["connector.run"],
+      "expires_at": "2026-09-25T10:15:01+08:00",
+      "ttl_seconds": 900,
+      "credential_version": "v2026.09.01",
+      "quota_charge": 1,
+      "issue_epoch": 1
+    }
   },
   {
     "event_id": "evt-03-004",
-    "event_type": "usage.recorded",
+    "event_type": "secret.materialized",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T12:00:00+08:00",
-    "actor_id": "reviewer-02"
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T10:00:01+08:00",
+    "sequence": 3,
+    "payload": {
+      "handle_id": "handle-03-001",
+      "materialized_at": "2026-09-25T10:00:01+08:00"
+    }
   },
   {
     "event_id": "evt-03-005",
-    "event_type": "lease.revoked",
+    "event_type": "usage.recorded",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T13:00:00+08:00",
-    "actor_id": "operator-01"
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T10:05:00+08:00",
+    "sequence": 4,
+    "payload": {
+      "handle_id": "handle-03-001",
+      "used_scope": ["read:repo"],
+      "result": "ok",
+      "scope_within_approval": true
+    }
   },
   {
     "event_id": "evt-03-006",
-    "event_type": "lease.expired",
+    "event_type": "credential.rotated",
+    "aggregate_id": "conn-gitlab",
+    "tenant_id": "_system",
+    "occurred_at": "2026-09-25T11:00:00+08:00",
+    "sequence": 1,
+    "payload": {
+      "old_version": "v2026.09.01",
+      "new_version": "v2026.09.02",
+      "grace_ends_at": "2026-09-25T12:00:00+08:00"
+    }
+  },
+  {
+    "event_id": "evt-03-007",
+    "event_type": "lease.renewed",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T14:00:00+08:00",
-    "actor_id": "reviewer-02"
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T11:05:00+08:00",
+    "sequence": 5,
+    "payload": {
+      "expires_at": "2026-09-25T11:20:00+08:00",
+      "ttl_seconds": 900,
+      "credential_version": "v2026.09.02"
+    }
+  },
+  {
+    "event_id": "evt-03-008",
+    "event_type": "incident.opened",
+    "aggregate_id": "incident-03-001",
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T12:30:00+08:00",
+    "sequence": 1,
+    "payload": {
+      "incident_id": "incident-03-001",
+      "scope_note": "诊断包疑似被批量带走",
+      "freeze": true,
+      "freeze_scope": "tenant"
+    }
+  },
+  {
+    "event_id": "evt-03-009",
+    "event_type": "materialization.frozen",
+    "aggregate_id": "incident-03-001",
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T12:30:00+08:00",
+    "sequence": 2,
+    "payload": {
+      "scope": "tenant"
+    }
+  },
+  {
+    "event_id": "evt-03-010",
+    "event_type": "lease.revoked",
+    "aggregate_id": "case-03-001",
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T12:35:00+08:00",
+    "sequence": 6,
+    "payload": {
+      "reason": "incident-response",
+      "emergency": true,
+      "actor_id": "security"
+    }
+  },
+  {
+    "event_id": "evt-03-011",
+    "event_type": "destruction.confirmed",
+    "aggregate_id": "case-03-001",
+    "tenant_id": "tenant-03",
+    "occurred_at": "2026-09-25T12:35:00+08:00",
+    "sequence": 7,
+    "payload": {
+      "handle_id": "handle-03-001",
+      "destroyed_at": "2026-09-25T12:35:00+08:00",
+      "proof": "0000000000000000000000000000000000000000000000000000000000000000",
+      "kind": "material",
+      "reason": "emergency"
+    }
   }
 ]

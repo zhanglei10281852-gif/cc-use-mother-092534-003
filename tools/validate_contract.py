@@ -29,9 +29,11 @@ def validate() -> tuple[int, int, int]:
     connection = sqlite3.connect(":memory:")
     connection.execute(
         "create table event_log(event_id text primary key, event_type text not null, "
-        "aggregate_id text not null, occurred_at text not null, actor_id text not null)"
+        "aggregate_id text not null, tenant_id text not null, occurred_at text not null, "
+        "sequence integer not null, unique (aggregate_id, sequence))"
     )
     previous = None
+    seen_sequences: dict[str, int] = {}
     for event in events:
         if event["event_type"] not in allowed:
             raise ValueError(f"未知事件类型：{event['event_type']}")
@@ -41,9 +43,21 @@ def validate() -> tuple[int, int, int]:
         if previous is not None and occurred_at < previous:
             raise ValueError("样例事件必须按发生时间排序")
         previous = occurred_at
+        aggregate_id = event["aggregate_id"]
+        sequence = event["sequence"]
+        if sequence != seen_sequences.get(aggregate_id, 0) + 1:
+            raise ValueError(f"聚合 {aggregate_id} 的事件序列不连续")
+        seen_sequences[aggregate_id] = sequence
         connection.execute(
-            "insert into event_log values (?, ?, ?, ?, ?)",
-            (event["event_id"], event["event_type"], event["aggregate_id"], event["occurred_at"], event["actor_id"]),
+            "insert into event_log values (?, ?, ?, ?, ?, ?)",
+            (
+                event["event_id"],
+                event["event_type"],
+                aggregate_id,
+                event["tenant_id"],
+                event["occurred_at"],
+                sequence,
+            ),
         )
     connection.commit()
     stored = connection.execute("select count(*) from event_log").fetchone()[0]

@@ -1,7 +1,7 @@
 [project]
 name = "ccusr-credential-lease"
 version = "0.1.0"
-description = "连接凭据申请、短期物化、轮换、租约核销和泄露处置的领域资料"
+description = "连接凭据申请、短期物化、轮换、租约核销和泄露处置的协调器（事件溯源、受控句柄、租户额度、销毁证明）"
 requires-python = ">=3.11"
 dependencies = []
 

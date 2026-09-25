@@ -5,6 +5,7 @@
     "credential_version",
     "lease",
     "task_context",
+    "controlled_handle",
     "usage_receipt",
     "destruction_proof",
     "incident"
@@ -18,25 +19,39 @@
     "expired",
     "destroying",
     "destroyed",
-    "frozen"
+    "frozen",
+    "invalidated"
   ],
   "event_types": [
+    "task.authorized",
     "lease.requested",
     "lease.issued",
-    "credential.rotated",
-    "usage.recorded",
+    "lease.renewed",
     "lease.revoked",
     "lease.expired",
+    "credential.rotated",
+    "credential.version_retired",
+    "secret.materialized",
     "destruction.confirmed",
-    "incident.opened"
+    "usage.recorded",
+    "incident.opened",
+    "materialization.frozen",
+    "materialization.unfrozen",
+    "incident.closed"
   ],
   "time_policy": "ISO 8601 with timezone",
   "identifier_policy": "同一租户和对象类型内业务标识唯一",
   "version_policy": "已发布规则与事实通过新版本追加，不覆盖历史",
+  "secret_boundary": "明文仅允许存在于进程内秘密注册表，事件流、任务参数、诊断包与日志只允许出现不透明 secret_ref",
+  "lease_dimensions": ["tenant_id", "connector_id", "purpose", "approved_scope", "capabilities"],
   "rules": [
-    "凭据只能绑定已授权任务上下文与能力范围",
-    "明文不得写入持久化任务参数或审计载荷",
-    "同一租户的有效租约不得超过额度",
-    "轮换宽限结束后旧版本必须拒绝使用"
+    "凭据只能凭已授权任务上下文申请，且申请范围必须是任务批准范围与连接器能力的子集",
+    "明文不得写入持久化任务参数、事件载荷或审计日志，只允许在受控句柄内短暂出现",
+    "同一租户的有效租约不得超过额度，额度检查与签发必须在同一串行化事务内完成",
+    "租约按 领取-签发-物化-续期-核销/过期-销毁 形成连续状态链，状态只能由事件重放得到",
+    "轮换产生新版本，旧版本仅在宽限期内可用，宽限结束后旧版本必须拒绝并退役",
+    "任务失败重放只能恢复仍有效的租约关系，注册表中已不存在的明文不得重新暴露",
+    "安全调查可圈定受影响句柄、冻结新物化、追踪销毁证明，并核验每次调用范围未超过原批准",
+    "每次销毁必须出具哈希链销毁证明，证明只含不透明标识，可离线重算验证"
   ]
 }
