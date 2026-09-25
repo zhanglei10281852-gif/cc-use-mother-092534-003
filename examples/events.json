@@ -1,44 +1,66 @@
 [
   {
     "event_id": "evt-03-001",
-    "event_type": "lease.requested",
+    "event_type": "task.authorized",
     "aggregate_id": "case-03-001",
     "occurred_at": "2026-09-25T09:00:00+08:00",
-    "actor_id": "operator-01"
+    "actor_id": "scheduler",
+    "payload": {"tenant_id": "tenant-a", "connector_id": "conn-github", "purpose": "sync-repo"}
   },
   {
     "event_id": "evt-03-002",
-    "event_type": "lease.issued",
+    "event_type": "lease.requested",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T10:00:00+08:00",
-    "actor_id": "reviewer-02"
+    "occurred_at": "2026-09-25T09:01:00+08:00",
+    "actor_id": "conn-github"
   },
   {
     "event_id": "evt-03-003",
-    "event_type": "credential.rotated",
+    "event_type": "lease.issued",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T11:00:00+08:00",
-    "actor_id": "operator-01"
+    "occurred_at": "2026-09-25T09:01:02+08:00",
+    "actor_id": "coordinator"
   },
   {
     "event_id": "evt-03-004",
     "event_type": "usage.recorded",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T12:00:00+08:00",
-    "actor_id": "reviewer-02"
+    "occurred_at": "2026-09-25T09:05:00+08:00",
+    "actor_id": "conn-github"
   },
   {
     "event_id": "evt-03-005",
-    "event_type": "lease.revoked",
+    "event_type": "credential.rotated",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T13:00:00+08:00",
-    "actor_id": "operator-01"
+    "occurred_at": "2026-09-25T10:00:00+08:00",
+    "actor_id": "identity-admin"
   },
   {
     "event_id": "evt-03-006",
-    "event_type": "lease.expired",
+    "event_type": "credential.version_retired",
     "aggregate_id": "case-03-001",
-    "occurred_at": "2026-09-25T14:00:00+08:00",
-    "actor_id": "reviewer-02"
+    "occurred_at": "2026-09-25T10:10:00+08:00",
+    "actor_id": "coordinator"
+  },
+  {
+    "event_id": "evt-03-007",
+    "event_type": "incident.opened",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T10:20:00+08:00",
+    "actor_id": "security-01"
+  },
+  {
+    "event_id": "evt-03-008",
+    "event_type": "lease.revoked",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T10:21:00+08:00",
+    "actor_id": "security-01"
+  },
+  {
+    "event_id": "evt-03-009",
+    "event_type": "destruction.confirmed",
+    "aggregate_id": "case-03-001",
+    "occurred_at": "2026-09-25T10:25:00+08:00",
+    "actor_id": "conn-github"
   }
 ]

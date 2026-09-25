@@ -2,12 +2,15 @@
   "project": "凭据物化与销毁协调器",
   "entities": [
     "connector",
+    "task_context",
+    "authorization",
     "credential_version",
     "lease",
-    "task_context",
+    "lease_handle",
     "usage_receipt",
     "destruction_proof",
-    "incident"
+    "incident",
+    "tenant_quota"
   ],
   "states": [
     "requested",
@@ -18,25 +21,40 @@
     "expired",
     "destroying",
     "destroyed",
-    "frozen"
+    "frozen",
+    "grace",
+    "retired"
   ],
   "event_types": [
+    "task.authorized",
     "lease.requested",
     "lease.issued",
-    "credential.rotated",
-    "usage.recorded",
+    "lease.quota_denied",
+    "lease.renewed",
+    "lease.surrendered",
     "lease.revoked",
     "lease.expired",
+    "credential.provisioned",
+    "credential.rotated",
+    "credential.version_retired",
+    "usage.recorded",
     "destruction.confirmed",
-    "incident.opened"
+    "incident.opened",
+    "incident.closed"
   ],
   "time_policy": "ISO 8601 with timezone",
-  "identifier_policy": "同一租户和对象类型内业务标识唯一",
-  "version_policy": "已发布规则与事实通过新版本追加，不覆盖历史",
+  "identifier_policy": "同一租户和对象类型内业务标识唯一；事件与租约标识全局唯一且只追加",
+  "version_policy": "已发布规则与事实通过新版本追加，不覆盖历史；旧版本宽限期结束后进入 retired",
+  "plaintext_policy": "凭据明文只存在于受控句柄的 materialize 上下文中；事件、存储、任务参数与日志只允许出现指纹",
   "rules": [
     "凭据只能绑定已授权任务上下文与能力范围",
-    "明文不得写入持久化任务参数或审计载荷",
-    "同一租户的有效租约不得超过额度",
-    "轮换宽限结束后旧版本必须拒绝使用"
+    "明文不得写入持久化任务参数、诊断包、审计载荷或日志",
+    "同一租户的有效租约不得超过额度，并发申请原子计数",
+    "领取、续期、核销、轮换、吊销构成连续租约状态",
+    "轮换宽限结束后旧版本必须拒绝使用",
+    "任务失败重放只能恢复仍有效的租约关系，不能重新暴露明文",
+    "核销后必须留下销毁证明才能进入 destroyed 终态",
+    "泄露调查可圈定句柄、冻结新物化并追踪销毁证明",
+    "每次连接调用实时核验实际范围不超过原批准并留回执"
   ]
 }
